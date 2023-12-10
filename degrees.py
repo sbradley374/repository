@@ -85,12 +85,7 @@ def main():
 
 
 def shortest_path(source, target):
-    """
-    Returns the shortest list of (movie_id, person_id) pairs
-    that connect the source to the target.
 
-    If no possible path, returns None.
-    """
     nodes = QueueFrontier()
 
     neighbors = neighbors_for_person(source)
@@ -101,20 +96,17 @@ def shortest_path(source, target):
 
     while not nodes.empty():
         current_node = nodes.remove()
+
         if current_node.id == target:
-                return current_node.path
+            return current_node.path
         else:
             neighbors = neighbors_for_person(current_node.id)
             for movie, id in neighbors:
-                my_node = Node(id, movie, [current_node[0], (movie, id)])
+                my_node = Node(id, movie, current_node.path + [(movie, id)])
                 nodes.add(my_node)
 
     return None
     
-
-
-
-
 def person_id_for_name(name):
     """
     Returns the IMDB id for a person's name,
